@@ -5,18 +5,31 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
+
+When I first opened the game, there was the title, text about guessing range and attempts left, the developer debug info section, the textbox for the user to enter thier guess, and buttons to submit guess, start a new game, and view hints. The developer debug info section expands to specify which specified the secret number, attempt number, score, difficult, and history of previous attempts. There is also a settings sidebar that can be used to change the difficulty of the game which changes the range of numbers and number of attempts. One inconsistancy I noticed is that the sidebar said "Attempts allowed: 8" while the main game area already showed "Attempts left: 7" before I had even guessed. I also noticed that when playing the game, I had to click the submit guess button twice to see the hint.
+
 - List at least two concrete bugs you noticed at the start  
-  (for example: "the hints were backwards").
+  1. The hints were reversed. For example, if the number guessed is smaller than the secret number, the hint would say go lower instead of higher and vise-versa. 
+  2. The game allowed hints that were outside of the specified range. For example, it would accept the number 0 as an attempt and give a hint despite being out of range. 
+  3. The score did not reset and no guesses were able to be made after pressing the new game button.
 
 **Bug Reproduction Log**
 
 Document at least 3 bugs you found. Add rows as needed.
 
+The secret number was 6 and the difficulty setting was normal.
+
 | Input | Expected Behavior | Actual Behavior | Console Output / Error |
 |-------|-------------------|-----------------|------------------------|
-| | | | |
-| | | | |
-| | | | |
+|   1   |  go higher hint   |  go lower hint  |         none           |
+|   10  |   go lower hint   |  go higher hint |         none           |
+|   9   |   go lower hint   |  go higher hint |         none           |
+|   90  |   go lower hint   |  go higher hint |         none           |
+|   7   |   go lower hint   |  go higher hint |         none           |
+|   0   | out of range error| attempt accepted|         none           |
+|  101  | out of range error| attempt accepted|         none           |
+
+Although there are 8 attempts allowed in the normal game, I was only allowed 7 attempts. 
 
 ---
 
