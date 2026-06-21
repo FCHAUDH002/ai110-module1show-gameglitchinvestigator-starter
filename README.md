@@ -26,27 +26,46 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 📝 Document Your Experience
 
 - [ ] Describe the game's purpose.
+
+The Game Glitch Investigator is a number guessing game built with Streamlit. The player tries to guess a secret number within a set range, and the game gives "Too High" or "Too Low" hints after each guess until the player wins or runs out of attempts.
+
 - [ ] Detail which bugs you found.
+
+I found six bugs. The hint logic was completely inverted, telling players to go the opposite direction of where the secret number actually was. The score did not reset when starting a New Game, and the game became unplayable afterward since no new guesses could be submitted. The game also accepted out-of-range guesses, like 101 when the max was 100, or 60 in Hard mode when the max should have been 50. Changing the difficulty updated the sidebar but not the main game text, and submitting a guess required two clicks before the hint actually appeared.
+
 - [ ] Explain what fixes you applied.
+
+I fixed the two most impactful bugs out of the six I found. For the inverted hints, I corrected the inverted messages in check_guess so the direction actually matches the guess, then moved the function from app.py into logic_utils.py as instructed. For the New Game bug, I added resets for score, status, and history to the button handler, since it was previously only resetting attempts and the secret number. Both fixes are confirmed working in the live game and are covered by pytest tests.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User enters a guess of 50
+2. Game returns "Go Higher!" and score updates to -5
+3. User enters a guess of 90 → "Go Lower!", score updates to -10
+4. User enters a guess of 70 → "Go Higher!", score stays at -10
+5. User enters a guess of 80 → "Correct!"
+6. Game ends after the correct guess
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
+
+![Winning game screenshot](screenshots/winning_game.jpeg)
+
 
 ## 🧪 Test Results
 
 ```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
+fatimachaudhry@Fatimas-Air ai110-module1show-gameglitchinvestigator-starter % pytest
+================================ test session starts ================================
+platform darwin -- Python 3.13.13, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/fatimachaudhry/Downloads/Codepat/ai110-module1show-gameglitchinvestigator-starter
+plugins: anyio-4.13.0
+collected 6 items
+
+tests/test_game_logic.py ......                                                [100%]
+
+================================= 6 passed in 0.64s =================================
 ```
 
 ## 🚀 Stretch Features

@@ -69,11 +69,21 @@ Yes, Claude Code wrote the actual test code for both bugs. For the New Game test
 
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
 
+In Streamlit, the whole script runs again from the top every time you click something, like a button. So normal variables just reset every time, which is confusing at first. That's why Streamlit has session_state, it's a special spot where values can actually stick around between reruns. I actually learned this the hard way when fixing the New Game bug, since the button was resetting some variables in session_state but not others, which is why the score kept carrying over even though the secret number changed.
+
 ---
 
 ## 5. Looking ahead: your developer habits
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
+- This could be a testing habit, a prompting strategy, or a way you used Git.
+
+I want to keep using a new AI chat session for each separate bug instead of one long conversation. It kept things focused and made it easier to follow what was actually being fixed, instead of mixing up multiple problems at once.
+
 - What is one thing you would do differently next time you work with AI on a coding task?
+
+Next time I would double check the rest of the codebase before assuming a fix is fully done, since I almost missed that logic_utils.py already had an empty placeholder version of check_guess that broke my tests later on.
+
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+This project showed me that AI generated code can look complete and polished on the surface while still having real bugs underneath, so I can't just trust it works without actually testing it myself.
