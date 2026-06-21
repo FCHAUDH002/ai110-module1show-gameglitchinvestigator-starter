@@ -2,7 +2,7 @@ import os
 
 from streamlit.testing.v1 import AppTest
 
-from logic_utils import check_guess
+from logic_utils import check_guess, get_proximity_hint
 
 APP_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "app.py")
 
@@ -40,6 +40,31 @@ def test_hint_direction_too_high():
     result, hint = check_guess(60, 50)
     assert result == "Too High"
     assert "LOWER" in hint.upper()
+
+
+def test_proximity_very_hot_at_zero():
+    # Exact distance of 0 is well within the "very hot" band
+    assert get_proximity_hint(50, 50) == "🔥 Very Hot!"
+
+def test_proximity_very_hot_at_boundary_5():
+    # Difference of exactly 5 is the inclusive upper edge of "very hot"
+    assert get_proximity_hint(45, 50) == "🔥 Very Hot!"
+
+def test_proximity_warm_just_past_5():
+    # Difference of 6 falls out of "very hot" and into "warm"
+    assert get_proximity_hint(44, 50) == "🌡️ Warm"
+
+def test_proximity_warm_at_boundary_15():
+    # Difference of exactly 15 is the inclusive upper edge of "warm"
+    assert get_proximity_hint(35, 50) == "🌡️ Warm"
+
+def test_proximity_cold_just_past_15():
+    # Difference of 16 falls out of "warm" and into "cold"
+    assert get_proximity_hint(34, 50) == "❄️ Cold"
+
+def test_proximity_handles_string_secret():
+    # The game stringifies the secret on even attempts; proximity must still work
+    assert get_proximity_hint(48, "50") == "🔥 Very Hot!"
 
 
 def test_new_game_button_resets_state():

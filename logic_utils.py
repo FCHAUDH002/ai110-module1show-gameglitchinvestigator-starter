@@ -36,6 +36,22 @@ def check_guess(guess, secret):
         return "Too Low", "📈 Go HIGHER!"
 
 
+def get_proximity_hint(guess, secret):
+    """
+    Return a Hot/Cold proximity message based on how close guess is to secret.
+
+    - difference <= 5:  "🔥 Very Hot!"
+    - difference <= 15: "🌡️ Warm"
+    - otherwise:        "❄️ Cold"
+    """
+    diff = abs(int(guess) - int(secret))
+    if diff <= 5:
+        return "🔥 Very Hot!"
+    if diff <= 15:
+        return "🌡️ Warm"
+    return "❄️ Cold"
+
+
 def update_score(current_score: int, outcome: str, attempt_number: int):
     """Update score based on outcome and attempt number."""
     raise NotImplementedError("Refactor this function from app.py into logic_utils.py")

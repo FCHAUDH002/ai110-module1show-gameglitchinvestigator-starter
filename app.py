@@ -1,7 +1,7 @@
 import random
 import streamlit as st
 
-from logic_utils import check_guess
+from logic_utils import check_guess, get_proximity_hint
 
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy":
@@ -151,6 +151,8 @@ if submit:
 
         if show_hint:
             st.warning(message)
+            if outcome != "Win":
+                st.info(get_proximity_hint(guess_int, st.session_state.secret))
 
         st.session_state.score = update_score(
             current_score=st.session_state.score,

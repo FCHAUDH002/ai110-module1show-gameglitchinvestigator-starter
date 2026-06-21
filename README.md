@@ -52,7 +52,6 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 
 ![Winning game screenshot](screenshots/winning_game.jpeg)
 
-
 ## 🧪 Test Results
 
 ```
@@ -70,4 +69,7 @@ tests/test_game_logic.py ......                                                [
 
 ## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
+- Challenge 4: Enhanced Game UI
+I added a Hot/Cold proximity indicator that shows alongside the existing hint after each guess. The new get_proximity_hint(guess, secret) function in logic_utils.py returns "🔥 Very Hot!" if the guess is within 5 of the secret, "🌡️ Warm" if it's within 15, and "❄️ Cold" otherwise. It's called from app.py inside the show_hint block, right after the existing "Too High"/"Too Low" message, and is skipped on a winning guess since "Correct!" already covers that case. The function is covered by six pytest tests, including boundary checks at exactly 5 and 15, and a test confirming it still works correctly even when the secret is passed in as a string, since the game has a known glitch where the secret gets stringified on every other attempt.
+
+![Enhanced UI screenshot](screenshots/challenge4.png)
