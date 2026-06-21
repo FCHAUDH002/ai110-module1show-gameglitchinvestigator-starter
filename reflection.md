@@ -36,17 +36,32 @@ Although there are 8 attempts allowed in the normal game, I was only allowed 7 a
 ## 2. How did you use AI as a teammate?
 
 - Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
+
+I used Claude Code in VS Code for this project.
+
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
+
+I asked Claude Code why the hints were backwards, and it found the exact problem in check_guess in app.py: the "Too Low" branch said "Go LOWER!" when it should've said "Go HIGHER!" I checked this myself by running the game and guessing both above and below the secret, and the hints made sense afterward.
+
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+
+When I asked Claude Code to move check_guess into logic_utils.py, it didn't warn me that logic_utils.py already had an empty placeholder version of check_guess that just threw an error. My tests ended up calling that empty version instead of my actual fix, so pytest failed even though my code was right. I figured this out from the pytest error message and had Claude Code swap in my real function instead.
 
 ---
 
 ## 3. Debugging and testing your fixes
 
 - How did you decide whether a bug was really fixed?
-- Describe at least one test you ran (manual or using pytest)  
-  and what it showed you about your code.
+
+For the hint bug, I played the game multiple times after the fix and checked that every hint matched the actual direction (guessing low said "Go Higher," guessing high said "Go Lower"). For the New Game bug, I played a full round until I lost, clicked New Game, and confirmed the score went back to 0 and I could actually submit a new guess afterward instead of getting stuck.
+
+- Describe at least one test you ran (manual or using pytest) and what it showed you about your code.
+
+I ran the test_new_game_button_resets_state test, which simulates losing a round and then clicking New Game to check that score, status, and history all reset properly. The first time I ran the full test suite, it actually showed me a separate problem I hadn't noticed. The starter tests were failing because check_guess now returns a tuple instead of a plain string, which I had to fix in the test file before everything passed.
+
 - Did AI help you design or understand any tests? How?
+
+Yes, Claude Code wrote the actual test code for both bugs. For the New Game test, it used Streamlit's AppTest tool to simulate losing a round and clicking New Game, then checked that the score, status, and history all reset correctly. I reviewed the test step by step to make sure I understood what it was actually checking before I accepted it.
 
 ---
 
